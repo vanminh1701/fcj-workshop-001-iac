@@ -1,0 +1,41 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [{
+            "Sid": "EC2InstanceConnect",
+            "Action": "ec2-instance-connect:OpenTunnel",
+            "Effect": "Allow",
+            "Resource": "arn:aws:ec2:region:account-id:instance-connect-endpoint/eice-123456789abcdef",
+            "Condition": {
+                "NumericEquals": {
+                    "ec2-instance-connect:remotePort": "22"
+                },
+                "IpAddress": {
+                    "ec2-instance-connect:privateIpAddress": "10.0.1.0/31"
+                },
+                "NumericLessThanEquals": {
+                    "ec2-instance-connect:maxTunnelDuration": "3600"
+                }
+            }
+        },
+        {
+            "Sid": "SSHPublicKey",
+            "Effect": "Allow",
+            "Action": "ec2-instance-connect:SendSSHPublicKey",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:osuser": "ami-username"
+                }
+            }
+        },
+        {
+            "Sid": "Describe",
+            "Action": [
+                "ec2:DescribeInstances",
+                "ec2:DescribeInstanceConnectEndpoints"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        }
+    ]
+}
