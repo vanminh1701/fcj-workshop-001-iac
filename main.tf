@@ -1,23 +1,6 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-/**
-1. VPC with 2 public subnet and 2 private subnet
-2. Autoscaling Group in private subnet: EC2 instance with cloudWatch agent managed by SSM service
-  configuration file to match log group with each instance in ASG
-  - Config CloudWatch group to receive application log from instance (Nginx logs)
-  - save CW configuration to ssm parameter store
-  - create lauch template to Add user_data to download cloudwatch agent and configuration from ssm
-  - create ASG and scaling policy
-  - Setup VPC private link for cloudwatch endpoint => add dns link to cw configuration   
-4. CloudWatch alarm on specific error and send notification to Slack
-  - setup metric filter and SNS topic 
-  - Lambda function to send request to weekhook
-6. Config ALB + ACM and Cloudflare DNS
-  - Route 53
-  - TODO: ALB => nginx server
-*/
-
 terraform {
   required_providers {
     aws = {
